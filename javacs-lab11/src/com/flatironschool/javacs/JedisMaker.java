@@ -23,18 +23,15 @@ public class JedisMaker {
 	 * @throws IOException
 	 */
 	public static Jedis make() throws IOException {
-
-
-		// assemble the directory name
 		String slash = File.separator;
 		String filename = "resources" + slash + "redis_url.txt";
-		URL fileURL = JedisMaker.class.getClassLoader().getResource(filename);
-                String filepath = URLDecoder.decode(fileURL.getFile(), "UTF-8");
 
-	    	StringBuilder sb = new StringBuilder();
+		URL fileURL = JedisMaker.class.getClassLoader().getResource(filename);
+
+	  StringBuilder sb = new StringBuilder();
 		BufferedReader br;
 		try {
-                    br = new BufferedReader(new FileReader(filepath));
+			br = new BufferedReader(new FileReader(fileURL.getFile()));
 		} catch (FileNotFoundException e1) {
 			System.out.println("File not found: " + filename);
 			printInstructions();
@@ -62,12 +59,6 @@ public class JedisMaker {
 
 		String[] array = uri.getAuthority().split("[:@]");
 		String auth = array[1];
-
-		//Here's an older version that read the auth code from an environment variable.
-		//String host = "dory.redistogo.com";
-		//int port = 10534;
-		//String auth = System.getenv("REDISTOGO_AUTH");
-
 		Jedis jedis = new Jedis(host, port);
 
 		try {
